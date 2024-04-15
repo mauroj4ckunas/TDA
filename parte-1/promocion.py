@@ -31,7 +31,7 @@ def Backtrack (estadoActual, nroInfluencer):
         if valorActual > estadoActual["mayorValor"]:
             estadoActual["mejorSeleccion"] = estadoActual["seleccionados"]
             estadoActual["mayorValor"] = valorActual
-        if valorAmpliado > estadoActual["mayorValor"] and influencer not in estadoActual["incompatibles"]:
+        if valorAmpliado > estadoActual["mayorValor"] and influencer.codigo not in estadoActual["incompatibles"]:
             estadoActual["mejorSeleccion"] = seleccionadosAmpliado
             estadoActual["mayorValor"] = valorAmpliado
 
@@ -49,7 +49,7 @@ def Backtrack (estadoActual, nroInfluencer):
                                     "cota": CotaActual
                                 })
 
-        if CotaAmpliada > estadoActual["mayorValor"] and influencer not in estadoActual["incompatibles"]:
+        if CotaAmpliada > estadoActual["mayorValor"] and influencer.codigo not in estadoActual["incompatibles"]:
             descendientes.append({
                                     "seleccionados": seleccionadosAmpliado, 
                                     "valor": valorAmpliado,
