@@ -45,7 +45,7 @@ def Backtrack (estadoActual, nroInfluencer):
             descendientes.append({
                                     "seleccionados": estadoActual["seleccionados"],
                                     "valor": valorActual,
-                                    "incopatibles": estadoActual["incompatibles"],
+                                    "incompatibles": estadoActual["incompatibles"],
                                     "cota": CotaActual
                                 })
 
@@ -53,7 +53,7 @@ def Backtrack (estadoActual, nroInfluencer):
             descendientes.append({
                                     "seleccionados": seleccionadosAmpliado, 
                                     "valor": valorAmpliado,
-                                    "incopatibles": estadoActual["incompatibles"] + influencer.no_compatibles,
+                                    "incompatibles": estadoActual["incompatibles"] + influencer.no_compatibles,
                                     "cota": CotaAmpliada
                                 })
 
@@ -67,7 +67,7 @@ def Backtrack (estadoActual, nroInfluencer):
                 estadoActual["valorActual"] = seleccionadosDesc["valor"]
                 estadoActual["seleccionados"] = seleccionadosDesc["seleccionados"]
                 estadoActual["incompatibles"] = seleccionadosDesc["incompatibles"]
-                Backtrack(seleccionadosDesc, nroInfluencer + 1)
+                Backtrack(estadoActual, nroInfluencer + 1)
 
 
 
@@ -99,7 +99,7 @@ def cargar_influencers(nombre_archivo):
             codigo = int(parts[0])
             nombre = parts[1]
             valor = int(parts[2])
-            no_compatibles = [int(x) for x in parts[3:]]
+            no_compatibles = [int(x) for x in parts[3:] if x.strip()]
             influencers.append(Influencer(codigo, nombre, valor, no_compatibles))
     return influencers
 
@@ -110,8 +110,9 @@ def main(nombre_archivo):
     mejores_influencers, mejor_valor = ObtenerCombinacionMasInfluyente(influencers_ordenados)
 
     print("Valor conseguido:", mejor_valor)
+    print("\n")
     for influencer in mejores_influencers:
-        print(influencer)
+        print(influencer.nombre)
 
 
 if __name__ == "__main__":
