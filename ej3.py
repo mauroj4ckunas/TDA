@@ -1,4 +1,3 @@
-
 def agrupar_diagonales(campo, tamanio, agrupaciones_hechas):
     if campo[0][0] != 0:
        agrupaciones_hechas = agrupar_diagonal_esquina1(campo, tamanio, agrupaciones_hechas)
@@ -88,5 +87,20 @@ def divide_y_venceras(campo, tamanio, silox, siloy, agrupaciones_hechas):
         for  i in range(4):
             if (tiene_esquinas_ocupadas(campo, tamanio)):
                 agrupaciones_hechas = agrupar_diagonales(campo, tamanio, agrupaciones_hechas)
-            divide_y_venceras(campo_subdivididos[i], tamanio/2, silox, siloy, agrupaciones_hechas)
+            agrupaciones_hechas = divide_y_venceras(campo_subdivididos[i], tamanio/2, silox, siloy, agrupaciones_hechas)
     else: agrupaciones_hechas = agrupar_diagonales(campo, tamanio, agrupaciones_hechas)
+    return agrupaciones_hechas
+
+def main():
+    agrupaciones_hechas = 1
+    tamanio = 4
+    silox = 1
+    siloy = 2
+    campo = []
+    for i in range(tamanio):
+        for j in range(tamanio):
+            campo[i][j] = 0
+    
+    campo[silox][siloy] = 1 
+    agrupaciones_hechas = divide_y_venceras(campo, tamanio, silox, siloy, agrupaciones_hechas)
+    print(campo)
