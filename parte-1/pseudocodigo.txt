@@ -1,0 +1,73 @@
+Sea influencers el listado de n influencers ordenados de mayor a menor según su valor de penetración en el mercado.
+    Sea seleccionados la lista de influencers seleccionados inicialmente vacía.
+    Sea incompatibles la lista de influencers incompatibles con los influencers seleccionados, inicialmente vacía.
+    Sea nroInfluencer la posición en el listado de elemento a evaluar.
+    Sea mejorSeleccion la combinación de la lista de seleccionados que da el mayor valor de penetración en el mercado.
+    Sea mayorValor el mayor valor de penetración en el mercado.
+
+    nroInfluencer = 0
+    estado = {
+        influencers
+        mejorSeleccion = []
+        mayorValor = 0
+        valorActual = 0
+        seleccionados = []
+        incompatibles = []
+    }
+
+    Backtrack(estado, nroInfluencer)
+
+    Devolver mejorSeleccion, mayorValor
+
+
+
+Backtrack(estadoActual, nroInfluencer):
+    Sea influencer el influencer en la posición nroInfluencer en influencers.
+    Sea seleccionadosAmpliado igual a seleccionados U influencer.
+    Sea valorActual el valorActual en estadoActual.
+    Sea valorAmpliado la suma del valorActual y el valor del influencer.
+    Sea cantidadInfluencers la longitud de influencers en estadoActual.
+
+    Si nroInfluencer es igual a cantidadInfluencers - 1:
+        Si valorActual es mayor que mayorValor en estadoActual:
+            mejorSeleccion en estadoActual es igual a seleccionados en estadoActual.
+            mayorValor en estadoActual es igual a valorActual.
+        Si valorAmpliado es mayor que mayorValor en estadoActual y influencer no está en incompatibles en estadoActual:
+            mejorSeleccion en estadoActual es igual a seleccionadosAmpliado.
+            mayorValor en estadoActual es igual a valorAmpliado.
+
+    Si no:
+        Sea sumaRestantes la suma de los valores de los influencers desde la posición nroInfluencer+1 hasta el final en influencers en estadoActual.
+        Sea CotaActual igual a valorActual más sumaRestantes.
+        Sea CotaAmpliada igual a valorAmpliado más sumaRestantes.
+        Sea descendientes una lista vacía.
+
+        Si CotaActual es mayor que mayorValor en estadoActual:
+            Agregar {
+                seleccionados: seleccionados en estadoActual,
+                valor: valorActual,
+                incopatibles: incompatibles en estadoActual,
+                cota: CotaActual
+            } a descendientes.
+
+        Si CotaAmpliada es mayor que mayorValor en estadoActual y influencer no está en incompatibles en estadoActual:
+            Agregar {
+                seleccionados: seleccionadosAmpliado,
+                valor: valorAmpliado,
+                incopatibles: incompatibles en estadoActual U con no_compatibles del influencer,
+                cota: CotaAmpliada
+            } a descendientes.
+
+        Mientras la longitud de descendientes sea mayor que 0:
+            Sea seleccionadosDesc un elemento de descendientes que tenga la mayor cota (lo quitamos de descendientes)
+            Si la cota en seleccionadosDesc es mayor que mayorValor en estadoActual:
+                valorActual en estadoActual es igual a valor en seleccionadosDesc.
+                seleccionados en estadoActual es igual a seleccionados en seleccionadosDesc.
+                incompatibles en estadoActual es igual a incopatibles en seleccionadosDesc.
+                Backtrack(estadoActual, nroInfluencer + 1)
+
+
+
+
+
+    
