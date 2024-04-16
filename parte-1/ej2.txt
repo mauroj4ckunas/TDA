@@ -1,0 +1,7 @@
+1,Ana,20,2,3
+2,Beto,15,1
+3,Carla,10,1
+4,Diego,25,5
+5,Elena,30,4
+6,Fernando,12,2,3
+7,Gabriela,18,6
