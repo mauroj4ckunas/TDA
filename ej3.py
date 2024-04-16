@@ -27,7 +27,7 @@ def agrupar_diagonal_esquina2(campo, coordenadas, tamanio, agrupaciones_hechas):
             campo[esquinaInferiorDerecha(coordenadas, tamanio)[0] - i + 1][esquinaInferiorDerecha(coordenadas, tamanio)[1] - i] = agrupaciones_hechas
     return agrupaciones_hechas
 
-def agrupar_diagonal_esquina3(campo, coordenadas,tamanio, agrupaciones_hechas):
+def agrupar_diagonal_esquina3(campo, coordenadas, tamanio, agrupaciones_hechas):
     for i in range(tamanio):
         if not campo[esquinaSuperiorDerecha(coordenadas, tamanio)[0] + i][esquinaSuperiorDerecha(coordenadas, tamanio)[1] - i] != 0:
             agrupaciones_hechas = agrupaciones_hechas + 1
@@ -38,7 +38,7 @@ def agrupar_diagonal_esquina3(campo, coordenadas,tamanio, agrupaciones_hechas):
 
 def agrupar_diagonal_esquina4(campo, coordenadas,tamanio, agrupaciones_hechas):
     for i in range(tamanio):
-        if not campo[esquinaInferiorIzquierda(coordenadas, tamanio)[0] - i][esquinaInferiorIzquierda(coordenadas, tamanio)[1] + i] != 0:
+        if campo[esquinaInferiorIzquierda(coordenadas, tamanio)[0] - i][esquinaInferiorIzquierda(coordenadas, tamanio)[1] + i] == 0:
             agrupaciones_hechas = agrupaciones_hechas + 1
             campo[esquinaInferiorIzquierda(coordenadas, tamanio)[0] - i][esquinaInferiorIzquierda(coordenadas, tamanio)[1] + i] = agrupaciones_hechas
             campo[esquinaInferiorIzquierda(coordenadas, tamanio)[0] - i][esquinaInferiorIzquierda(coordenadas, tamanio)[1] + i  - 1] = agrupaciones_hechas
@@ -47,13 +47,13 @@ def agrupar_diagonal_esquina4(campo, coordenadas,tamanio, agrupaciones_hechas):
 
 
 def esquinaSuperiorDerecha(coordenadas, tamanio):
-    return (coordenadas[0] + tamanio - 1, coordenadas[1])
+    return (coordenadas[0] , coordenadas[1] + tamanio - 1)
 
 def esquinaInferiorDerecha(coordenadas, tamanio):
     return (coordenadas[0] + tamanio - 1, coordenadas[1] + tamanio - 1)
 
 def esquinaInferiorIzquierda(coordenadas, tamanio):
-    return (coordenadas[0], coordenadas[1] + tamanio - 1)
+    return (coordenadas[0] + tamanio - 1, coordenadas[1])
 
 
 def tiene_esquinas_ocupadas(campo, coordenadas, tamanio):
@@ -66,21 +66,20 @@ def subdividir_campo(coordenada1, silox, siloy, tamanio):
     # Extraer las coordenadas de las esquinas superiores izquierdas e inferiores derechas del campo
     x1, y1 = coordenada1
     # Calcular la mitad de filas y columnas
-    mitad_filas = tamanio // 2
-    mitad_columnas = tamanio // 2
+    mitad_tamanio = int(tamanio / 2)
     # Determinar las coordenadas de las esquinas superiores izquierdas e inferiores derechas de cada submatriz
     campo_subdivididos = []
 
     campo1 = (x1, y1)
-    campo2 = (x1 + mitad_columnas , y1)
-    campo3 = (x1, y1 + mitad_filas)
-    campo4 = (x1 + mitad_columnas, y1 + mitad_filas)
+    campo2 = (x1 , y1 + mitad_tamanio)
+    campo3 = (x1 + mitad_tamanio, y1)
+    campo4 = (x1 + mitad_tamanio, y1 + mitad_tamanio)
 
-    if silox >= mitad_columnas and siloy < mitad_filas:
-        campo_subdivididos.extend([campo2, campo1, campo3, campo4])
-    elif silox < mitad_columnas and siloy >= mitad_filas:
+    if silox >= mitad_tamanio and siloy < mitad_tamanio:
         campo_subdivididos.extend([campo3, campo1, campo2, campo4])
-    elif silox >= mitad_columnas and siloy >= mitad_filas:
+    elif silox < mitad_tamanio and siloy >= mitad_tamanio:
+        campo_subdivididos.extend([campo2, campo1, campo3, campo4])
+    elif silox >= mitad_tamanio and siloy >= mitad_tamanio:
         campo_subdivididos.extend([campo4, campo1, campo2, campo3])
     else:
         campo_subdivididos.extend([campo1, campo2, campo3, campo4])
@@ -91,7 +90,7 @@ def divide_y_venceras(campo, coordenadas, tamanio, silox, siloy, agrupaciones_he
     if (tamanio > 2):
         coordenadas_subdivididos = subdividir_campo(coordenadas, silox, siloy, tamanio)
         for  i in range(4):
-            if (tiene_esquinas_ocupadas(campo,coordenadas_subdivididos[i], int (tamanio/2))):
+            if (tiene_esquinas_ocupadas(campo,coordenadas, tamanio)):
                 agrupaciones_hechas = agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas)
             agrupaciones_hechas = divide_y_venceras(campo, coordenadas_subdivididos[i], int (tamanio/2), silox, siloy, agrupaciones_hechas)
     else: agrupaciones_hechas = agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas)
