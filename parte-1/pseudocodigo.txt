@@ -1,9 +1,9 @@
-Sea influencers el listado de n influencers ordenados de mayor a menor según su valor de penetración en el mercado.
-    Sea seleccionados la lista de influencers seleccionados inicialmente vacía.
-    Sea incompatibles la lista de influencers incompatibles con los influencers seleccionados, inicialmente vacía.
-    Sea nroInfluencer la posición en el listado de elemento a evaluar.
-    Sea mejorSeleccion la combinación de la lista de seleccionados que da el mayor valor de penetración en el mercado.
-    Sea mayorValor el mayor valor de penetración en el mercado.
+Sea influencers el listado de n influencers.
+Sea seleccionados la lista de influencers seleccionados inicialmente vacía.
+Sea incompatibles la lista de influencers incompatibles con los influencers seleccionados, inicialmente vacía.
+Sea nroInfluencer la posición en el listado de elemento a evaluar.
+Sea mejorSeleccion la combinación de la lista de seleccionados que da el mayor valor de penetración en el mercado.
+Sea mayorValor el mayor valor de penetración en el mercado.
 
     nroInfluencer = 0
     estado = {

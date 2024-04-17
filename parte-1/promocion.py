@@ -6,13 +6,6 @@ class Influencer:
         self.no_compatibles = no_compatibles
 
 
-def suma_del_valor_de(influencers: list, desde: int = 0):
-    suma = 0
-    for influencer in influencers[desde:]:
-        suma += influencer.valor
-    return suma
-
-
 def seleccionar_descendiente_mayor_cota(lista_diccionarios):
     descendiente_mayor_cota = max(lista_diccionarios, key=lambda x: x['cota'])
     lista_diccionarios.remove(descendiente_mayor_cota)
@@ -36,7 +29,7 @@ def Backtrack (estadoActual, nroInfluencer):
             estadoActual["mayorValor"] = valorAmpliado
 
     else:
-        sumaRestantes = suma_del_valor_de(estadoActual["influencers"], nroInfluencer + 1)
+        sumaRestantes = estadoActual["cota_superior"][influencer.codigo] # O(1)
         CotaActual = valorActual + sumaRestantes
         CotaAmpliada = valorAmpliado + sumaRestantes
         descendientes = []
@@ -75,9 +68,10 @@ def Backtrack (estadoActual, nroInfluencer):
 
 
 
-def ObtenerCombinacionMasInfluyente(influencers): 
+def ObtenerCombinacionMasInfluyente(influencers, cota_superior): 
     nroInfluencer = 0
     estado = {
+        "cota_superior": cota_superior,
         "influencers": influencers,
         "mejorSeleccion": [],
         "mayorValor": 0,
@@ -103,11 +97,24 @@ def cargar_influencers(nombre_archivo):
             influencers.append(Influencer(codigo, nombre, valor, no_compatibles))
     return influencers
 
+
+def calcular_cota_superior(influencers):
+    total = 0
+    cota_superior = {}
+    for influencer in influencers: # O(n)
+        total += influencer.valor
+
+    suma = 0
+    for i in range(len(influencers)): # O(n)                
+        suma += influencers[i].valor
+        cota_superior[influencers[i].codigo] = total - suma
+
+    return cota_superior
+
 def main(nombre_archivo):
     influencers = cargar_influencers(nombre_archivo)
-    # Ordeno influencers por valor de menor a mayor, para que obtener el de mayor valor sea O(1)
-    influencers_ordenados = sorted(influencers, key=lambda x: x.valor, reverse=True) # O(n log n)
-    mejores_influencers, mejor_valor = ObtenerCombinacionMasInfluyente(influencers_ordenados)
+    cota_superior= calcular_cota_superior(influencers) # O(n)
+    mejores_influencers, mejor_valor = ObtenerCombinacionMasInfluyente(influencers, cota_superior) # O(2^n)
 
     print("Valor conseguido:", mejor_valor)
     print("\n")
