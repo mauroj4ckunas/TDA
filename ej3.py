@@ -115,3 +115,4 @@ for fila in range(tamanio):
     for columna in range(tamanio):
         print(campo[fila][columna], end = " - ")
     print()
+print (agrupaciones_hechas)
