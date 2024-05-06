@@ -10,7 +10,7 @@ def agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas):
 
     return agrupaciones_hechas
 
-#Agrupa en diagonal desde la esquinasuperior izquierda
+#Agrupa en diagonal desde la esquina superior izquierda
 def agrupar_diagonal_esquina1(campo, coordenadas, tamanio, agrupaciones_hechas):
     for i in range(tamanio):
         if not campo[coordenadas[0] + i][coordenadas[1] + i] != 0:
@@ -60,10 +60,11 @@ def esquinaInferiorDerecha(coordenadas, tamanio):
 def esquinaInferiorIzquierda(coordenadas, tamanio):
     return (coordenadas[0] + tamanio - 1, coordenadas[1])
 
+#Verifica si hay espacios vacios en las diagonales (iguales a cero)
 def tiene_diagonales_a_ocupar(campo, coordenadas, tamanio):
     return (((campo[coordenadas[0]][coordenadas[1]] != 0) != (campo[esquinaInferiorDerecha(coordenadas, tamanio)[0]][esquinaInferiorDerecha(coordenadas, tamanio)[1]]!= 0))
             or ((campo[esquinaSuperiorDerecha(coordenadas, tamanio)[0]][esquinaSuperiorDerecha(coordenadas, tamanio)[1]] != 0) != (campo[esquinaInferiorIzquierda(coordenadas, tamanio)[0]][esquinaInferiorIzquierda(coordenadas, tamanio)[1]] != 0)))
-
+#Devuelve una lista de 4 coordenadas que representan las primeras hectareas de los campos subdivididos
 def subdividir_campo(coordenada1, silox, siloy, tamanio):
     
     mitad_tamanio = int(tamanio / 2)
@@ -86,13 +87,14 @@ def subdividir_campo(coordenada1, silox, siloy, tamanio):
     
     return campo_subdivididos
 
-def divide_y_venceras(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas):
+#Agrupa las hectareas de de forma que no quede ninguna vacía.
+def divide_y_conquista(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas):
     if (tamanio > 2):
         coordenadas_subdivididos = subdividir_campo(coordenadas, silox, siloy, tamanio)
         for  i in range(4):
             if (tiene_diagonales_a_ocupar(campo,coordenadas, tamanio)):
                 agrupaciones_hechas = agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas)
-            agrupaciones_hechas = divide_y_venceras(campo, coordenadas_subdivididos[i], int (tamanio/2), silox, siloy, agrupaciones_hechas)
+            agrupaciones_hechas = divide_y_conquista(campo, coordenadas_subdivididos[i], int (tamanio/2), silox, siloy, agrupaciones_hechas)
     else: agrupaciones_hechas = agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas)
     return agrupaciones_hechas
 
@@ -110,7 +112,7 @@ for i in range(tamanio):
 coordenadas = (0, 0)
 
 campo[silox][siloy] = 1 
-agrupaciones_hechas = divide_y_venceras(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas)
+agrupaciones_hechas = divide_y_conquista(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas)
 for fila in range(tamanio):
     for columna in range(tamanio):
         print(campo[fila][columna], end = " - ")
