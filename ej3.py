@@ -1,3 +1,5 @@
+import sys
+
 #Funcion que agrupa en direcciones diagonales si el campo no esta ocupado en esa dirección
 def agrupar_diagonales(campo, coordenadas, tamanio, agrupaciones_hechas):
     if campo[coordenadas[0]][coordenadas[1]] != 0:
@@ -99,22 +101,32 @@ def divide_y_conquista(campo, coordenadas, tamanio, silox, siloy, agrupaciones_h
     return agrupaciones_hechas
 
 
-tamanio = int(input())
-silox = int(input())
-siloy = int(input())
-agrupaciones_hechas = 1
-campo = []
-for i in range(tamanio):
-    fila = []
-    for j in range(tamanio):
-        fila.append(0)
-    campo.append(fila)
-coordenadas = (0, 0)
+def imprimir_matriz(matriz, tamanio):
+    for fila in range(tamanio):
+        for elemento in range(tamanio):
+            print("{:4}".format(matriz[fila][elemento]), end="")  # Ajusta el ancho de cada elemento
+        print()  # Imprime una nueva línea después de cada fila
 
-campo[silox][siloy] = 1 
-agrupaciones_hechas = divide_y_conquista(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas)
-for fila in range(tamanio):
-    for columna in range(tamanio):
-        print(campo[fila][columna], end = " - ")
-    print()
-print (agrupaciones_hechas)
+
+if __name__ == "__main__":
+    if len(sys.argv) != 4:
+        print("Uso: python programa.py tamanio silox siloy")
+        sys.exit(1)
+
+    tamanio = int(sys.argv[1])
+    silox = int(sys.argv[2])
+    siloy = int(sys.argv[3])
+
+    agrupaciones_hechas = 1
+    campo = []
+    for i in range(tamanio):
+        fila = []
+        for j in range(tamanio):
+            fila.append(0)
+        campo.append(fila)
+    coordenadas = (0, 0)
+
+    campo[silox][siloy] = 1 
+    agrupaciones_hechas = divide_y_conquista(campo, coordenadas, tamanio, silox, siloy, agrupaciones_hechas)
+    imprimir_matriz(campo, tamanio)
+    print (agrupaciones_hechas)
