@@ -1,4 +1,5 @@
 Sea influencers el listado de n influencers.
+Sea cota_superior el diccionario con la cota superior previamente calculada para cada uno de los influencers
 Sea seleccionados la lista de influencers seleccionados inicialmente vacía.
 Sea incompatibles la lista de influencers incompatibles con los influencers seleccionados, inicialmente vacía.
 Sea nroInfluencer la posición en el listado de elemento a evaluar.
@@ -7,6 +8,7 @@ Sea mayorValor el mayor valor de penetración en el mercado.
 
     nroInfluencer = 0
     estado = {
+        cota_superior
         influencers
         mejorSeleccion = []
         mayorValor = 0
@@ -37,9 +39,8 @@ Backtrack(estadoActual, nroInfluencer):
             mayorValor en estadoActual es igual a valorAmpliado.
 
     Si no:
-        Sea sumaRestantes la suma de los valores de los influencers desde la posición nroInfluencer+1 hasta el final en influencers en estadoActual.
-        Sea CotaActual igual a valorActual más sumaRestantes.
-        Sea CotaAmpliada igual a valorAmpliado más sumaRestantes.
+        Sea CotaActual igual a valorActual más cota_superior.
+        Sea CotaAmpliada igual a valorAmpliado más cota_superior.
         Sea descendientes una lista vacía.
 
         Si CotaActual es mayor que mayorValor en estadoActual:
